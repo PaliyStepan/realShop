@@ -3,14 +3,10 @@
 		<div class="container">
 			<div class="header__inner">
 				<router-link to="/" class="header__logo">
-					<svg class="icon header__logo-img">
-						<use xlink:href="#icon-logo"></use>
-					</svg>
+					<app-icon name="logo" classes="header__logo-img"/>
 				</router-link>
 				<div class="header__cart">
-					<svg class="icon header__cart-img">
-						<use xlink:href="#icon-cart"></use>
-					</svg>
+					<app-icon name="cart" classes="header__cart-img"/>
 					<div class="header__cart-counter">
 						2
 					</div>
@@ -21,8 +17,13 @@
 </template>
 
 <script>
+	import AppIcon from "./Icon/Icon";
+	
 	export default {
-		name: "Header"
+		name: "Header",
+		components: {
+			AppIcon
+		}
 	}
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Header/>
+		<app-header/>
 		<main class="main">
 			<router-view/>
 		</main>
@@ -8,12 +8,14 @@
 </template>
 
 <script>
-	import Header from "./components/Header";
+	import AppHeader from "./components/Header";
 
 	export default {
 		components: {
-			Header
+			AppHeader
 		},
+		data: () => ({
+		}),
 		computed: {
 		
 		}

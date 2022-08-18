@@ -5,17 +5,26 @@
 				<AppFilter/>
 			</div>
 			<div class="main-grid__right">
+				
 				<div class="catalog">
-					<Preloader v-if="!PRODUCTS"/>
+					<AppPreloader v-if="!hasProducts"/>
 					<div class="catalog__row" v-else>
-						<div class="catalog__col"
-						     v-for="product in PRODUCTS"
-						     :key="product.id"
-						>
-							<CatalogItem :product="product"/>
-						</div>
+						<app-catalog-item
+							:product="product"
+							v-for="product in products"
+							:key="product.id"
+						/>
 					</div>
+					<app-pagination
+						:perPage="productsPerPage"
+						:count="countProducts"
+						:page="page"
+						@paginate="changePagination"
+					/>
+					
+					
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -23,29 +32,47 @@
 
 <script>
 	import AppFilter from "../components/AppFilter";
-	import CatalogItem from "../components/CatalogItem";
-	import Preloader from "../components/Preloader";
+	import AppCatalogItem from "../components/CatalogItem";
+	import AppPreloader from "../components/Preloader/Preloader";
+	import AppPagination from "../components/Pagination/Pagination";
 
-	import {mapActions, mapGetters, mapMutations} from 'vuex'
+	import { mapActions, mapGetters } from 'vuex'
+	
 	export default {
 		name: 'Home',
 		components: {
 			AppFilter,
-			CatalogItem,
-			Preloader
+			AppCatalogItem,
+			AppPreloader,
+			AppPagination
 		},
+		data: () => ({
+			page: 1,
+			productsPerPage: 6,
+		}),
 		methods: {
-			...mapActions([
-				'GET_PRODUCTS_FORM_API'
-			]),
-			...mapMutations([
-				'CHANGE_LOADING'
-			])
+			...mapActions('products', ['GET_PRODUCTS_FORM_API']),
+			changePagination(page){
+				this.page = page
+			}
 		},
 		computed: {
-			...mapGetters([
-				'PRODUCTS'
-			])
+			...mapGetters('products', {productsFromApi: 'ALL_PRODUCTS'}),
+			hasProducts(){
+				return this.productsFromApi.length > 0
+			},
+			filteredProducts() {
+				let filteredProducts = this.productsFromApi;
+				
+				return filteredProducts
+			},
+			countProducts(){
+				return this.filteredProducts.length;
+			},
+			products(){
+				const offset = (this.page - 1) * this.productsPerPage;
+				return this.filteredProducts.slice(offset, offset + this.productsPerPage)
+			}
 		},
 		created() {
 			this.GET_PRODUCTS_FORM_API();
@@ -61,6 +88,7 @@
 		
 		&__left {
 			flex: 0 0 20%;
+			padding-right: 30px;
 		}
 		
 		&__right {
@@ -71,11 +99,9 @@
 	.catalog {
 		
 		&__row {
-			display: flex;
-			flex-wrap: wrap;
-			margin-left: -15px;
-			margin-right: -15px;
-			margin-bottom: -30px;
+			display: grid;
+			grid-template-columns: repeat(3,1fr);
+			grid-gap: 30px;
 		}
 		
 		&__col {

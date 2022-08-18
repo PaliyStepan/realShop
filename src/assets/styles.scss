@@ -2,6 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
 html {
 	min-height: 100%;
 	font-size: 18px;
@@ -90,7 +95,7 @@ main {
 		transition: border-color 0.3s ease;
 
 		&:focus {
-			border-color: #000;
+			border-color: $dark;
 		}
 	}
 }
@@ -103,4 +108,8 @@ main {
 
 .icon {
 	transition: fill 0.3s ease;
+}
+
+.text-center {
+	text-align: center;
 }

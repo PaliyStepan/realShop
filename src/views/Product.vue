@@ -10,13 +10,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="product" v-if="product">
+		<Preloader v-if="!hasProduct"/>
+		<div class="product" v-else v-cloak>
 			<div class="product__row">
 				<div class="product__left">
-					<img :src="product.image" alt="" class="">
+					<img :src="product.images[0]" alt="" class="">
 				</div>
 				<div class="product__right">
-					{{product.title}}
+					{{product.name}}
 				</div>
 			</div>
 		</div>
@@ -27,27 +28,36 @@
 	
 	import axios from 'axios';
 	import router from '../router';
-	import {mapMutations} from 'vuex';
+	import Preloader from "../components/Preloader/Preloader";
+	import {mapGetters, mapActions} from 'vuex';
 	
 	export default {
 		name: "ProductPage",
-		data(){
-			return {
-				product: null
+		components: {
+			Preloader
+		},
+		data: () => ({
+
+		}),
+		computed:{
+			...mapGetters('products', {product: 'ONE_PRODUCT'}),
+			id(){
+				return parseInt(this.$route.params.id);
+			},
+			hasProduct(){
+				return this.product !== null
 			}
+			
 		},
 		methods:{
-			...mapMutations([
-				'CHANGE_LOADING'
-			])
+			...mapActions('products', ['GET_ONE_PRODUCT_FROM_API']),
+			...mapActions('products', ['CLEAR_PRODUCT']),
 		},
-		created() {
-			this.CHANGE_LOADING();
-
-			axios.get(`https://61d4952b8df81200178a8d8a.mockapi.io/test/${Number(this.$route.params.id)}`)
-				.then(response => this.product = response.data)
-				.then(this.CHANGE_LOADING())
-				.catch(() => {router.push('/error')})
+		mounted() {
+			this.GET_ONE_PRODUCT_FROM_API(this.id);
+		},
+		beforeUnmount(){
+			this.CLEAR_PRODUCT();
 		}
 	}
 </script>
@@ -63,7 +73,14 @@
 		
 		&__left {
 			flex: 0 0 30%;
+			
+			img {
+				width: auto;
+				max-width: 100px;
+			}
 		}
+		
+		
 		
 		&__right {
 			flex: 0 0 70%;

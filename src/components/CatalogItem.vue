@@ -1,30 +1,37 @@
 <template>
 	<div class="catalog-item">
-<!--		<router-link class="catalog-item__link" :to="{ name:'product', params: {id:product.id}}">-->
+		{{product.title }}
+		<router-link class="catalog-item__link" :to="{ name:'product', params: {id:product.id}}">
 			<img :src="product.images[0]" alt="" class="catalog-item__img">
 			<div class="catalog-item__title">
 				{{product.name}}
 			</div>
-<!--		</router-link>-->
+		</router-link>
 		
+
 		<div class="catalog-item__price">
+			<div v-if="product.sale" class="catalog-item__label">
+				- {{product.sale}} %
+			</div>
+			
+			<div class="catalog-item__price-old">
+				{{ $filters.numberFormat(product.price) }} руб.
+			</div>
+			
+			<div v-if="product.sale" class="catalog-item__price-strike">
+				
+				{{ $filters.numberFormat($filters.pricePercent(product.price,product.sale)) }} руб.
+			</div>
 		
-<!--			<div v-if="product.sale" class="catalog-item__label">-->
-<!--				- {{product.sale}} %-->
-<!--			</div>-->
-<!--			-->
-<!--			<div class="catalog-item__price-old" :class="product.sale ? 'catalog-item__price&#45;&#45;strike': ''">-->
-<!--				{{product.price | numberFormat}} ₽-->
-<!--			</div>-->
-<!--			<div class="catalog-item__price-sale" v-if="product.sale">-->
-<!--				{{Number(product.price)  }} ₽-->
-<!--			</div>-->
+		
+		
+		
 		</div>
 		<div class="catalog-item__button" @click.stop="someCLick">
 			В корзину
 		</div>
-	
-		
+
+
 <!--		<div class="catalog-item__available">-->
 <!--			{{product.availability}}-->
 <!--		</div>-->
@@ -33,26 +40,21 @@
 
 <script>
 	
-	import numberFormat from "../helpers/numberFormat";
 	
 	export default {
 		name: "CatalogItem",
 		props: ['product'],
-		filters: {
-			numberFormat
-		},
 		methods: {
 			someCLick() {
 				console.log(213)
 			}
 		},
 		computed: {
-		
 		},
 		mounted() {
 			// var money = 8990; // у нас есть деньги;
 			// var tallage = money / 100 * 15; // обычная формула вычисления процента от числа - 35%
-			console.log(this.product); // результат
+			// console.log(this.product); // результат
 		}
 	}
 </script>
@@ -60,6 +62,7 @@
 <style lang="scss">
 	
 	.catalog-item {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -103,12 +106,14 @@
 		}
 		
 		&__price {
-			position: relative;
+			display: flex;
+			align-items: flex-end;
 			width: 100%;
 			font-weight: 700;
 			margin-top: auto;
 			margin-bottom: 20px;
 		}
+		
 		
 		&__button {
 			align-self: flex-start;
@@ -132,23 +137,26 @@
 		
 		&__label {
 			position: absolute;
-			left: -32px;
-			top: -20px;
+			left: 10px;
+			top: 10px;
 			display: inline-flex;
 			align-items: center;
 			background-color: red;
 			transform: rotate(-10deg);
 			color: #fff;
-			padding: 0 6px;
-			font-size: 11px;
+			padding: 0 10px;
+			font-size: 12px;
 			border-radius: 4px;
-			height: 18px;
+			height: 22px;
 		}
 		
-		&__price--strike {
+		&__price-strike {
 			text-decoration: line-through;
 			color: #ccc;
 			font-weight: 400;
+			margin-left: 16px;
+			font-size: 15px;
+			line-height: 18px;
 		}
 		
 	}

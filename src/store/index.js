@@ -1,27 +1,13 @@
 import { createStore } from 'vuex';
-import axios from "axios";
+import products from "./products";
+import preloader from "./preloader";
 
-export default createStore({
-	state: {
-	},
-	mutations: {
-		SET_PRODUCTS_TO_STATE(state, products) {
-			state.products = products
-		}
-	},
-	actions: {
-		GET_PRODUCTS_FORM_API({commit}){
-			axios.get('https://61d4952b8df81200178a8d8a.mockapi.io/test')
-				.then(response => {
-					commit('SET_PRODUCTS_TO_STATE', response.data)
-				})
-		}
-	},
+const store = {
 	modules: {
+		products,
+		preloader
 	},
-	getters: {
-		PRODUCTS(state){
-			return state.products
-		},
-	}
-})
+	strict: process.env.NODE_ENV !== 'production'
+};
+
+export default createStore(store);

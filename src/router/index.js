@@ -5,13 +5,14 @@ import Error from "../views/Error";
 
 const routes = [
 	{
+		name: 'home',
 		path: '/',
-		name: 'Home',
 		component: Home
 	},
 	{
+
+		name: 'product',
 		path: '/product/:id',
-		name: 'Product',
 		component: Product
 	},
 	{

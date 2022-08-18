@@ -3,7 +3,24 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-import 'normalize.css';
-import './assets/styles.scss';
+// import './assets/styles.scss';
 
-createApp(App).use(store).use(router).mount('#app')
+const app = createApp(App);
+
+
+app
+	.use(store)
+	.use(router)
+	.mount('#app');
+
+
+app.config.globalProperties.$filters = {
+	numberFormat(value) {
+		return new Intl.NumberFormat().format(value);
+	},
+	pricePercent(price, percent) {
+		return parseInt(price - price / 100 * percent )
+	}
+};
+
+
