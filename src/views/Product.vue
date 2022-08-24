@@ -11,16 +11,19 @@
 			</div>
 		</div>
 		<Preloader v-if="!hasProduct"/>
-		<div class="product" v-else v-cloak>
-			<div class="product__row">
-				<div class="product__left">
-					<img :src="product.images[0]" alt="" class="">
-				</div>
-				<div class="product__right">
-					{{product.name}}
-				</div>
-			</div>
+		<div v-else>
+			fuck
 		</div>
+<!--		<div class="product" v-else v-cloak>-->
+<!--			<div class="product__row">-->
+<!--				<div class="product__left">-->
+<!--					<img :src="product.images[0]" alt="" class="">-->
+<!--				</div>-->
+<!--				<div class="product__right">-->
+<!--					{{product.name}}-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
 	</div>
 </template>
 
@@ -37,7 +40,7 @@
 			Preloader
 		},
 		data: () => ({
-
+			isError: false
 		}),
 		computed:{
 			...mapGetters('products', {product: 'ONE_PRODUCT'}),
@@ -57,7 +60,7 @@
 			this.GET_ONE_PRODUCT_FROM_API(this.id);
 		},
 		beforeUnmount(){
-			this.CLEAR_PRODUCT();
+			// this.CLEAR_PRODUCT();
 		}
 	}
 </script>

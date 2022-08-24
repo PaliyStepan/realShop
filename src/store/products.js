@@ -1,10 +1,12 @@
 import axios from "axios";
 
+const BASE_URL = 'https://61d4952b8df81200178a8d8a.mockapi.io/';
+
 export default {
 	namespaced: true,
 	state: {
-		products: [],
-		product: null
+		products: null,
+		product: {}
 	},
 	getters: {
 		ALL_PRODUCTS: state => state.products,
@@ -20,16 +22,18 @@ export default {
 	},
 	actions: {
 		GET_PRODUCTS_FORM_API({commit}){
-			axios.get('https://61d4952b8df81200178a8d8a.mockapi.io/test')
+			axios.get(`${BASE_URL}test`)
 				.then(response => {
 					commit('SET_PRODUCTS_TO_STATE', response.data);
 				})
 		},
 		GET_ONE_PRODUCT_FROM_API({commit}, payload) {
-			axios.get(`https://61d4952b8df81200178a8d8a.mockapi.io/test/${payload}`)
+			axios.get(`${BASE_URL}test/${payload}`)
 				.then(response => {
 					commit('SET_ONE_PRODUCT_TO_STATE', response.data);
-					console.log(response.data)
+				})
+				.catch(function (error) {
+					commit('SET_ONE_PRODUCT_TO_STATE', null);
 				})
 		},
 		CLEAR_PRODUCT({commit}) {

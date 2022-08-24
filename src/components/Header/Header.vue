@@ -17,7 +17,7 @@
 </template>
 
 <script>
-	import AppIcon from "./Icon/Icon";
+	import AppIcon from "../Icon/Icon";
 	
 	export default {
 		name: "Header",

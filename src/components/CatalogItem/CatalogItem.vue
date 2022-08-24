@@ -1,5 +1,8 @@
 <template>
-	<div class="catalog-item">
+	<div
+		class="catalog-item"
+		:class="availabilityClass"
+	>
 		{{product.title }}
 		<router-link class="catalog-item__link" :to="{ name:'product', params: {id:product.id}}">
 			<img :src="product.images[0]" alt="" class="catalog-item__img">
@@ -7,54 +10,60 @@
 				{{product.name}}
 			</div>
 		</router-link>
-		
-
 		<div class="catalog-item__price">
-			<div v-if="product.sale" class="catalog-item__label">
-				- {{product.sale}} %
-			</div>
+			
+			
 			
 			<div class="catalog-item__price-old">
 				{{ $filters.numberFormat(product.price) }} руб.
 			</div>
 			
-			<div v-if="product.sale" class="catalog-item__price-strike">
-				
-				{{ $filters.numberFormat($filters.pricePercent(product.price,product.sale)) }} руб.
-			</div>
-		
-		
-		
-		
+			<template v-if="hasSale">
+				<div class="catalog-item__label">
+					- {{product.sale}} %
+				</div>
+				<div class="catalog-item__price-strike">
+					{{ $filters.numberFormat($filters.pricePercent(product.price,product.sale)) }} руб.
+				</div>
+			</template>
+			
 		</div>
-		<div class="catalog-item__button" @click.stop="someCLick">
-			В корзину
+		<div class="catalog-item__available">
+			Осталось
+			{{product.availability}}
 		</div>
+		<app-button
+			title="В корзину"
+		> </app-button>
 
-
-<!--		<div class="catalog-item__available">-->
-<!--			{{product.availability}}-->
-<!--		</div>-->
 	</div>
 </template>
 
 <script>
 	
+	import AppButton from "../Button/Button";
 	
 	export default {
 		name: "CatalogItem",
 		props: ['product'],
+		components:{
+			AppButton
+		},
+		data:()=>({
+			some: false
+		}),
 		methods: {
-			someCLick() {
-				console.log(213)
-			}
+		
 		},
 		computed: {
-		},
-		mounted() {
-			// var money = 8990; // у нас есть деньги;
-			// var tallage = money / 100 * 15; // обычная формула вычисления процента от числа - 35%
-			// console.log(this.product); // результат
+			availabilityClass(){
+				return {
+					'catalog-item--empty' : this.product.availability === 0
+				}
+			},
+			hasSale(){
+				return this.product.sale > 0
+			}
 		}
 	}
 </script>
@@ -111,28 +120,18 @@
 			width: 100%;
 			font-weight: 700;
 			margin-top: auto;
-			margin-bottom: 20px;
+			margin-bottom: 10px;
+		}
+		
+		&__available {
+			width: 100%;
+			
+			margin-bottom: 15px;
 		}
 		
 		
-		&__button {
+		.button {
 			align-self: flex-start;
-			display: inline-flex;
-			align-items: center;
-			height: 50px;
-			background-color: $green;
-			padding-left: 20px;
-			padding-right: 20px;
-			-webkit-border-radius: 4px;
-			-moz-border-radius: 4px;
-			border-radius: 4px;
-			color: #fff;
-			transition: background-color 0.3s ease;
-			cursor: pointer;
-			
-			&:hover {
-				background-color: darken($green, 10%);
-			}
 		}
 		
 		&__label {
@@ -157,6 +156,14 @@
 			margin-left: 16px;
 			font-size: 15px;
 			line-height: 18px;
+		}
+		
+		&--empty {
+			opacity: 0.3;
+		}
+		
+		&--empty &__button {
+			pointer-events: none;
 		}
 		
 	}

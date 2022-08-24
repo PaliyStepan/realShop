@@ -1,6 +1,5 @@
 <template>
 	<div class="pagination">
-		page - {{page}}
 		<div class="pagination__list">
 			<div class="pagination__item"
 				:class="{'pagination__item--current' : item === page}"
@@ -24,6 +23,7 @@
 		props: {
 			page: {
 				type: Number,
+				default: 1
 			},
 			count: {
 				type: Number,
@@ -66,6 +66,11 @@
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			cursor: pointer;
+			margin-right: 4px;
+			
+			&:last-of-type {
+				margin-right: 0;
+			}
 		}
 		
 		&__item--current {
