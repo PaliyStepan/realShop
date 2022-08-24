@@ -26,6 +26,9 @@
 </script>
 
 <style lang="scss">
+	
+	@import "../../assets/variables";
+	
 	.button {
 		display: inline-flex;
 		align-items: center;

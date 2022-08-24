@@ -12,6 +12,8 @@
 
 <style lang="scss">
 	
+	@import "../../assets/variables";
+	
 	.loader {
 		position: fixed;
 		display: flex;

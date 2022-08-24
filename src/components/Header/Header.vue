@@ -28,6 +28,9 @@
 </script>
 
 <style lang="scss">
+	
+	@import "../../assets/variables";
+	
 	.header {
 		padding-top: 20px;
 		padding-bottom: 20px;

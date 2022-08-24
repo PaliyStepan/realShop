@@ -31,6 +31,8 @@
 
 <style lang="scss">
 	
+	@import "../../assets/variables";
+	
 	.form-input {
 	
 		&__field {

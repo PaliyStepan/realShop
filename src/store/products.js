@@ -6,7 +6,7 @@ export default {
 	namespaced: true,
 	state: {
 		products: null,
-		product: {}
+		product: null
 	},
 	getters: {
 		ALL_PRODUCTS: state => state.products,
@@ -33,7 +33,7 @@ export default {
 					commit('SET_ONE_PRODUCT_TO_STATE', response.data);
 				})
 				.catch(function (error) {
-					commit('SET_ONE_PRODUCT_TO_STATE', null);
+					commit('SET_ONE_PRODUCT_TO_STATE', undefined);
 				})
 		},
 		CLEAR_PRODUCT({commit}) {

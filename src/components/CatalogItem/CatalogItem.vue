@@ -70,6 +70,8 @@
 
 <style lang="scss">
 	
+	@import "../../assets/variables";
+	
 	.catalog-item {
 		position: relative;
 		display: flex;

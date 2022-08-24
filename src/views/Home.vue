@@ -114,7 +114,6 @@
 					name: 'Фены'
 				},
 			],
-			productsAvailable: false,
 			checksAvailable: [
 				{
 					title: 'В наличии',
