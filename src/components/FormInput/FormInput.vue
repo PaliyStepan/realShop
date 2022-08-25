@@ -39,7 +39,7 @@
 			 width: 100%;
 			 height: 46px;
 			 border: 1px solid #ddd;
-			 padding: 20px;
+			 padding: 0 20px;
 			 border-radius: 4px;
 			 transition: border-color 0.3s ease;
 			font-size: 16px;

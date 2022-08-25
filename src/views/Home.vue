@@ -18,18 +18,26 @@
 							v-model.number="filterPriceTo"
 						/>
 					</div>
-					<div class="filter__checks">
-						<app-checkbox
-							v-for="check in checksAvailable"
-							:title="check.title"
-							:key="check.title"
-							:value="check.value"
-							v-model="checks"
-							@click="changePagination(1)"
-						>
-						</app-checkbox>
+					<div class="filter__group">
+						<div class="filter__checks">
+							<app-checkbox
+									v-for="check in checksAvailable"
+									:title="check.title"
+									:key="check.title"
+									:value="check.value"
+									v-model="checks"
+									@click="changePagination(1)"
+							>
+							</app-checkbox>
+						</div>
 					</div>
-					
+					<div class="filter__group">
+						<app-select
+							placeholder="Категория"
+							:options="categories"
+							@select="optionSelect"
+						/>
+					</div>
 					
 				</div>
 			</div>
@@ -70,6 +78,7 @@
 	import AppSkeleton from "../components/Sceleton/Skeleton";
 	import AppCheckbox from "../components/Checkbox/Checkbox";
 	import AppFormInput from "../components/FormInput/FormInput";
+	import AppSelect from "../components/Select/Select";
 
 	import { mapActions, mapGetters } from 'vuex'
 	
@@ -81,13 +90,15 @@
 			AppPagination,
 			AppSkeleton,
 			AppCheckbox,
-			AppFormInput
+			AppFormInput,
+			AppSelect
 		},
 		data: () => ({
 			page: 1,
 			productsPerPage: 6,
 			filterPriceFrom: 0,
 			filterPriceTo: 0,
+			filterCategoryId: 0,
 			categories: [
 				{
 					id: 654,
@@ -131,6 +142,9 @@
 			changePagination(page){
 				this.page = page
 			},
+			optionSelect(option){
+				this.filterCategoryId = option.id
+			}
 		},
 		computed: {
 			...mapGetters('products', {productsFromApi: 'ALL_PRODUCTS'}),
@@ -146,7 +160,9 @@
 				if (this.filterPriceTo > 0) {
 					filteredProducts = filteredProducts.filter(product => product.price < this.filterPriceTo)
 				}
-				
+				if (this.filterCategoryId) {
+					filteredProducts = filteredProducts.filter(product => product.categoryId === this.filterCategoryId );
+				}
 				if (this.checks.length > 0) {
 					filteredProducts = filteredProducts.filter( item => this.checks.every( some => item[some] > 0 ) );
 				}
