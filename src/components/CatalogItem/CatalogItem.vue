@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="catalog-item"
-		:class="availabilityClass"
+		:class="classNames"
 	>
 		{{product.title }}
 		<router-link class="catalog-item__link" :to="{ name:'product', params: {id:product.id}}">
@@ -11,30 +11,48 @@
 			</div>
 		</router-link>
 		<div class="catalog-item__price">
-			
-			
-			
-			<div class="catalog-item__price-old">
-				{{ $filters.numberFormat(product.price) }} руб.
-			</div>
-			
 			<template v-if="hasSale">
-				<div class="catalog-item__label">
-					- {{product.sale}} %
-				</div>
-				<div class="catalog-item__price-strike">
+				<div class="catalog-item__price-current">
 					{{ $filters.numberFormat($filters.pricePercent(product.price,product.sale)) }} руб.
 				</div>
+				<div class="catalog-item__price-strike">
+					{{ $filters.numberFormat(product.price) }} руб.
+				</div>
+				<app-label>
+					- {{product.sale}} %
+				</app-label>
 			</template>
-			
+			<div v-else>
+				<div class="catalog-item__price-current">
+					{{ $filters.numberFormat(product.price) }} руб.
+				</div>
+			</div>
 		</div>
-		<div class="catalog-item__available">
-			Осталось
-			{{product.availability}}
+		<div class="w-100" v-if="!hasAvailability">
+			<transition name="fade" mode="out-in">
+				<router-link
+					to="/cart"
+					v-if="inCart(product.id)"
+					class="catalog-item__button"
+				>
+					<app-button
+						title="Перейти в корзину"
+						kind="bordered"
+					/>
+				</router-link>
+				<app-button
+					title="Добавить"
+					@click="ADD_TO_CART(+product.id)"
+					v-else
+				> </app-button>
+			</transition>
 		</div>
-		<app-button
-			title="В корзину"
-		> </app-button>
+		<div class="catalog-item__empty" v-else>
+			<p>
+				Товар закончился
+			</p>
+		</div>
+		
 
 	</div>
 </template>
@@ -42,24 +60,33 @@
 <script>
 	
 	import AppButton from "../Button/Button";
+	import AppLabel from "../Label/Label";
+	
+	import {mapActions, mapGetters} from "vuex";
+	
 	
 	export default {
 		name: "CatalogItem",
 		props: ['product'],
 		components:{
-			AppButton
+			AppButton,
+			AppLabel
 		},
 		data:()=>({
 			some: false
 		}),
 		methods: {
-		
+			...mapActions('cart',[ 'ADD_TO_CART' ])
 		},
 		computed: {
-			availabilityClass(){
+			...mapGetters('cart', [ 'inCart' ]),
+			classNames(){
 				return {
-					'catalog-item--empty' : this.product.availability === 0
+					'catalog-item--empty' : this.hasAvailability
 				}
+			},
+			hasAvailability(){
+				return this.product.availability === 0;
 			},
 			hasSale(){
 				return this.product.sale > 0
@@ -121,7 +148,6 @@
 			align-items: flex-end;
 			width: 100%;
 			font-weight: 700;
-			margin-top: auto;
 			margin-bottom: 10px;
 		}
 		
@@ -136,37 +162,41 @@
 			align-self: flex-start;
 		}
 		
-		&__label {
+		&__button {
+			text-decoration: none;
+			align-self: flex-start;
+		}
+		
+		.label {
 			position: absolute;
 			left: 10px;
 			top: 10px;
-			display: inline-flex;
-			align-items: center;
-			background-color: red;
 			transform: rotate(-10deg);
-			color: #fff;
-			padding: 0 10px;
-			font-size: 12px;
-			border-radius: 4px;
-			height: 22px;
 		}
 		
 		&__price-strike {
 			text-decoration: line-through;
 			color: #ccc;
 			font-weight: 400;
-			margin-left: 16px;
 			font-size: 15px;
 			line-height: 18px;
+			margin-left: 15px;
+		}
+		
+		&__empty {
+			padding-top: 25px;
 		}
 		
 		&--empty {
 			opacity: 0.3;
 		}
 		
-		&--empty &__button {
+		&--empty .button {
 			pointer-events: none;
 		}
-		
 	}
+	
+	
+	
+	
 </style>

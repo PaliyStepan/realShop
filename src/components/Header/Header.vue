@@ -5,12 +5,15 @@
 				<router-link to="/" class="header__logo">
 					<app-icon name="logo" classes="header__logo-img"/>
 				</router-link>
-				<div class="header__cart">
+				<router-link to="/cart" class="header__cart"
+				     :class="{'header__cart--disabled' : !isCart}"
+				>
 					<app-icon name="cart" classes="header__cart-img"/>
-					<div class="header__cart-counter">
-						2
+					<div class="header__cart-counter" v-if="isCart">
+						{{cart.length}}
 					</div>
-				</div>
+				</router-link>
+				
 			</div>
 		</div>
 	</div>
@@ -18,11 +21,24 @@
 
 <script>
 	import AppIcon from "../Icon/Icon";
+	import {mapGetters} from 'vuex';
 	
 	export default {
 		name: "Header",
 		components: {
-			AppIcon
+			AppIcon,
+		},
+		data: ()=>({
+			open: true
+		}),
+		computed: {
+			...mapGetters('cart', {cart: 'CART'}),
+			isCart(){
+				return this.cart.length
+			}
+		},
+		methods: {
+		
 		}
 	}
 </script>
@@ -85,6 +101,12 @@
 		}
 		
 		&__cart:hover &__cart-counter {
+		}
+		
+		
+		&__cart--disabled {
+			opacity: 0.4;
+			pointer-events: none;
 		}
 		
 	}

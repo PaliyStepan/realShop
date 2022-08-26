@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'https://61d4952b8df81200178a8d8a.mockapi.io/';
+import {BASE_URL} from './constants'
 
 export default {
 	namespaced: true,
@@ -22,13 +22,13 @@ export default {
 	},
 	actions: {
 		GET_PRODUCTS_FORM_API({commit}){
-			axios.get(`${BASE_URL}test`)
+			axios.get(`${BASE_URL}products`)
 				.then(response => {
 					commit('SET_PRODUCTS_TO_STATE', response.data);
 				})
 		},
 		GET_ONE_PRODUCT_FROM_API({commit}, payload) {
-			axios.get(`${BASE_URL}test/${payload}`)
+			axios.get(`${BASE_URL}products/${payload}`)
 				.then(response => {
 					commit('SET_ONE_PRODUCT_TO_STATE', response.data);
 				})

@@ -94,10 +94,12 @@
 		z-index: 2;
 		
 		&__header {
+			width: 100%;
 			position: relative;
 			display: flex;
 			align-items: center;
 			padding-left: 20px;
+			padding-right: 20px;
 			border: 1px solid #ddd;
 			height: 46px;
 			border-radius: 4px;
@@ -122,7 +124,11 @@
 		
 		&__title {
 			font-size: 16px;
+			max-width: 100%;
 			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		
 		&__options {

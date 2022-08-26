@@ -1,11 +1,11 @@
 import { createStore } from 'vuex';
 import products from "./products";
-import preloader from "./preloader";
+import cart from "./cart";
 
 const store = {
 	modules: {
 		products,
-		preloader
+		cart
 	},
 	strict: process.env.NODE_ENV !== 'production'
 };

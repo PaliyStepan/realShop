@@ -80,7 +80,7 @@
 	import AppFormInput from "../components/FormInput/FormInput";
 	import AppSelect from "../components/Select/Select";
 
-	import { mapActions, mapGetters } from 'vuex'
+	import { mapActions, mapGetters } from 'vuex';
 	
 	export default {
 		name: 'Home',
@@ -221,12 +221,12 @@
 		flex-wrap: wrap;
 		
 		&__left {
-			flex: 0 0 20%;
+			flex: 0 0 300px;
 			padding-right: 30px;
 		}
 		
 		&__right {
-			flex: 0 0 80%;
+			flex: 1 0 0;
 		}
 	}
 	

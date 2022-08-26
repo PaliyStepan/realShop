@@ -1,9 +1,10 @@
 <template>
-	<button
+	<div
 		class="button"
+		:class="classes"
 	>
 		{{ title }}
-	</button>
+	</div>
 
 </template>
 
@@ -16,10 +17,18 @@
 				required: true,
 				default: 'Кнопка'
 			},
+			kind: {
+				type: String,
+			}
 		},
 		computed:{
 			isDisabled(){
 				return !this.disabled
+			},
+			classes(){
+				return {
+					'button--bordered': this.kind === 'bordered'
+				}
 			}
 		}
 	}
@@ -32,7 +41,8 @@
 	.button {
 		display: inline-flex;
 		align-items: center;
-		height: 50px;
+		justify-content: center;
+		height: 44px;
 		background-color: $green;
 		padding-left: 20px;
 		padding-right: 20px;
@@ -44,11 +54,26 @@
 		font-size: 16px;
 		
 		&:hover {
-			background-color: darken($green, 10%);
+			@media (hover: hover) {
+				background-color: darken($green, 10%);
+			}
 		}
 		
 		&[disabled] {
 			background-color: red;
+		}
+		
+		&--bordered {
+			border: 1px solid $green;
+			background-color: #fff;
+			color: $green;
+			
+			&:hover {
+				@media (hover: hover) {
+					color: #fff;
+				}
+			}
+			
 		}
 	}
 </style>
