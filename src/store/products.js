@@ -22,13 +22,29 @@ export default {
 	},
 	actions: {
 		GET_PRODUCTS_FORM_API({commit}){
-			axios.get(`${BASE_URL}products`)
+			// axios.get(`${BASE_URL}products`)
+			// 	.then(response => {
+			// 		commit('SET_PRODUCTS_TO_STATE', response.data);
+			// 	})
+
+			axios.get('http://localhost:3001/products')
 				.then(response => {
 					commit('SET_PRODUCTS_TO_STATE', response.data);
+
 				})
+
+
 		},
 		GET_ONE_PRODUCT_FROM_API({commit}, payload) {
-			axios.get(`${BASE_URL}products/${payload}`)
+			// axios.get(`${BASE_URL}products/${payload}`)
+			// 	.then(response => {
+			// 		commit('SET_ONE_PRODUCT_TO_STATE', response.data);
+			// 	})
+			// 	.catch(function (error) {
+			// 		commit('SET_ONE_PRODUCT_TO_STATE', undefined);
+			// 	})
+
+			axios.get(`http://localhost:3001/products/${payload}`)
 				.then(response => {
 					commit('SET_ONE_PRODUCT_TO_STATE', response.data);
 				})
