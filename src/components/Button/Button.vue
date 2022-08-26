@@ -4,6 +4,8 @@
 		:class="classes"
 	>
 		{{ title }}
+		
+		<slot></slot>
 	</div>
 
 </template>
@@ -14,10 +16,11 @@
 		props: {
 			title: {
 				type: String,
-				required: true,
-				default: 'Кнопка'
 			},
 			kind: {
+				type: String,
+			},
+			size: {
 				type: String,
 			}
 		},
@@ -27,7 +30,8 @@
 			},
 			classes(){
 				return {
-					'button--bordered': this.kind === 'bordered'
+					'button--bordered': this.kind === 'bordered',
+					'button--square': this.size === 'square',
 				}
 			}
 		}
@@ -74,6 +78,16 @@
 				}
 			}
 			
+		}
+		
+		&--square {
+			width: 44px;
+			padding: 0;
+		}
+		
+		.icon {
+			width: 24px;
+			height: 24px;
 		}
 	}
 </style>

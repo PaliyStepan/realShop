@@ -30,16 +30,27 @@
 		</div>
 		<div class="w-100" v-if="!hasAvailability">
 			<transition name="fade" mode="out-in">
-				<router-link
-					to="/cart"
-					v-if="inCart(product.id)"
-					class="catalog-item__button"
-				>
+				
+				<div class="catalog-item__add" v-if="inCart(product.id)">
+					<router-link
+						to="/cart"
+						class="catalog-item__button"
+					>
+						<app-button
+							title="Перейти в корзину"
+							kind="bordered"
+						/>
+					</router-link>
+					
 					<app-button
-						title="Перейти в корзину"
+						size="square"
 						kind="bordered"
-					/>
-				</router-link>
+						@click="REMOVE_FROM_CART(+product.id)"
+					>
+						<app-icon name="trash"/>
+					</app-button>
+				</div>
+				
 				<app-button
 					title="Добавить"
 					@click="ADD_TO_CART(+product.id)"
@@ -61,6 +72,7 @@
 	
 	import AppButton from "../Button/Button";
 	import AppLabel from "../Label/Label";
+	import AppIcon from "../Icon/Icon";
 	
 	import {mapActions, mapGetters} from "vuex";
 	
@@ -70,13 +82,14 @@
 		props: ['product'],
 		components:{
 			AppButton,
-			AppLabel
+			AppLabel,
+			AppIcon
 		},
 		data:()=>({
 			some: false
 		}),
 		methods: {
-			...mapActions('cart',[ 'ADD_TO_CART' ])
+			...mapActions('cart',['ADD_TO_CART','REMOVE_FROM_CART'])
 		},
 		computed: {
 			...mapGetters('cart', [ 'inCart' ]),
@@ -187,6 +200,12 @@
 			padding-top: 25px;
 		}
 		
+		&__add {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		
 		&--empty {
 			opacity: 0.3;
 		}
@@ -195,8 +214,5 @@
 			pointer-events: none;
 		}
 	}
-	
-	
-	
 	
 </style>

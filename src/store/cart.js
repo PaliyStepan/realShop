@@ -17,6 +17,9 @@ export default {
 		},
 		ADD_PRODUCT_TO_CART(state,id){
 			state.items.push({ realId: id, cnt: 1 });
+		},
+		REMOVE_PRODUCT_FROM_CART(state,id){
+			state.items = state.items.filter(item => item.realId != id);
 		}
 	},
 	actions: {
@@ -35,6 +38,10 @@ export default {
 					cnt: 1
 				}).then(commit('ADD_PRODUCT_TO_CART', id))
 			}
+		},
+		REMOVE_FROM_CART({ commit, getters, state }, id) {
+			axios.delete(`${BASE_URL}cart/${2}`).then(commit('ADD_PRODUCT_TO_CART', id))
+
 		}
 	}
 }
