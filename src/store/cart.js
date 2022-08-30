@@ -2,24 +2,40 @@ import axios from "axios";
 
 import {BASE_URL} from './constants'
 
+let items = window.localStorage.getItem('items');
+
 export default {
 	namespaced: true,
 	state: {
-		items: []
+		items: items ? JSON.parse(items) : [],
 	},
 	getters: {
 		CART: state => state.items,
-		inCart: state => id => state.items.some(item => item.realId == id),
+		inCart: state => id => state.items.some(item => item.id == id),
+		CART_LENGTH: state => state.items.length
 	},
 	mutations: {
 		SET_CART_TO_STATE(state, items){
 			state.items = items
 		},
-		ADD_PRODUCT_TO_CART(state,id){
-			state.items.push({ realId: id, cnt: 1 });
+		ADD_PRODUCT_TO_CART(state, payload){
+			state.items.push({
+				...payload,
+				cnt: 1
+			});
 		},
 		REMOVE_PRODUCT_FROM_CART(state,id){
-			state.items = state.items.filter(item => item.realId != id);
+			state.items = state.items.filter(item => item.id != id);
+		},
+		CLEAR_CART(state){
+			state.items = [];
+		},
+		SAVE_TO_LOCAL_STORE(state){
+			window.localStorage.setItem('items', JSON.stringify(state.items));
+		},
+		SET_CNT_TO_PRODUCT(state, {id, cnt}){
+			let item = state.items.find(item => item.id == id);
+			item.cnt = cnt
 		}
 	},
 	actions: {
@@ -31,17 +47,23 @@ export default {
 					}
 				})
 		},
-		ADD_TO_CART({ commit, getters, state },id){
-			if(!getters.inCart(id)){
-				axios.post(`${BASE_URL}cart`, {
-					realId: id,
-					cnt: 1
-				}).then(commit('ADD_PRODUCT_TO_CART', id))
+		ADD_TO_CART({ commit, getters, state },payload){
+			if(!getters.inCart(payload.id)){
+				commit('ADD_PRODUCT_TO_CART', payload);
+				commit('SAVE_TO_LOCAL_STORE');
 			}
 		},
-		REMOVE_FROM_CART({ commit, getters, state }, id) {
-			axios.delete(`${BASE_URL}cart/${2}`).then(commit('ADD_PRODUCT_TO_CART', id))
-
+		REMOVE_FROM_CART({ commit}, id) {
+			commit('REMOVE_PRODUCT_FROM_CART', id);
+			commit('SAVE_TO_LOCAL_STORE');
+		},
+		SET_CNT({ commit, getters }, { id, cnt, rest }){
+			let validCnt = Math.min(Math.max(cnt, 1), rest);
+			commit('SET_CNT_TO_PRODUCT', { id, cnt: validCnt });
+		},
+		CLEAR_CART({commit}) {
+			commit('CLEAR_CART');
+			commit('SAVE_TO_LOCAL_STORE');
 		}
 	}
 }

@@ -6,11 +6,11 @@
 					<app-icon name="logo" classes="header__logo-img"/>
 				</router-link>
 				<router-link to="/cart" class="header__cart"
-				     :class="{'header__cart--disabled' : !isCart}"
+				     :class="{'header__cart--disabled' : !cartLength}"
 				>
 					<app-icon name="cart" classes="header__cart-img"/>
-					<div class="header__cart-counter" v-if="isCart">
-						{{cart.length}}
+					<div class="header__cart-counter" v-if="cartLength">
+						{{cartLength}}
 					</div>
 				</router-link>
 				
@@ -32,10 +32,7 @@
 			open: true
 		}),
 		computed: {
-			...mapGetters('cart', {cart: 'CART'}),
-			isCart(){
-				return this.cart.length
-			}
+			...mapGetters('cart', {cartLength: 'CART_LENGTH'}),
 		},
 		methods: {
 		

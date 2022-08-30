@@ -30,7 +30,6 @@
 		</div>
 		<div class="w-100" v-if="!hasAvailability">
 			<transition name="fade" mode="out-in">
-				
 				<div class="catalog-item__add" v-if="inCart(product.id)">
 					<router-link
 						to="/cart"
@@ -53,7 +52,13 @@
 				
 				<app-button
 					title="Добавить"
-					@click="ADD_TO_CART(+product.id)"
+					@click="ADD_TO_CART({
+						id: +product.id,
+						name:product.name,
+						currentPrice: hasSale ? $filters.pricePercent(product.price,product.sale) : product.price,
+						image: product.images[0],
+						rest: product.availability
+					})"
 					v-else
 				> </app-button>
 			</transition>
