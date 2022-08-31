@@ -94,7 +94,11 @@
 						kind="bordered"
 						@click="CLEAR_CART"
 					/>
-					<app-button title="Перейти к оформлению" />
+					<router-link to="/order" class="link-wrap">
+						<app-button title="Перейти к оформлению" />
+					</router-link>
+					
+					
 				</div>
 			</div>
 			<div v-else>
@@ -172,14 +176,9 @@
 		
 		&__bottom {
 			margin-top: 60px;
-			display: flex;
 			
-			.button {
-				margin-right: 40px;
-				
-				&:last-of-type {
-					margin-right: 0;
-				}
+			.link-wrap {
+				margin-left: 40px;
 			}
 		}
 		

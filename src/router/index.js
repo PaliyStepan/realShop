@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Product from "../views/Product";
 import Error from "../views/Error";
 import Cart from "../views/Cart";
+import Order from "../views/Order";
 
 const routes = [
 	{
@@ -19,6 +20,11 @@ const routes = [
 		name: 'product',
 		path: '/product/:id',
 		component: Product
+	},
+	{
+		name: 'order',
+		path: '/order',
+		component: Order
 	},
 	{
 		name: 'errorPage',

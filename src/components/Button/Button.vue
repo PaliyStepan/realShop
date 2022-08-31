@@ -22,16 +22,18 @@
 			},
 			size: {
 				type: String,
+			},
+			disabled: {
+				type: Boolean,
+				default: true
 			}
 		},
 		computed:{
-			isDisabled(){
-				return !this.disabled
-			},
 			classes(){
 				return {
 					'button--bordered': this.kind === 'bordered',
 					'button--square': this.size === 'square',
+					'button--disabled': this.disabled === true,
 				}
 			}
 		}
@@ -63,8 +65,9 @@
 			}
 		}
 		
-		&[disabled] {
-			background-color: red;
+		&--disabled {
+			opacity: 0.5;
+			pointer-events: none;
 		}
 		
 		&--bordered {

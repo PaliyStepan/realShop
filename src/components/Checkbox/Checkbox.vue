@@ -2,10 +2,10 @@
 	<div class="checkbox">
 		<label class="checkbox__label">
 			<input type="checkbox"
-			       class="checkbox__input"
-			       :value="value"
-			       :checked="modelValue.includes(value)"
-			       @change="evt => onChange(evt.target.value)"
+		       class="checkbox__input"
+		       :value="value"
+		       :checked="modelValue.includes(value)"
+		       @change="evt => onChange(evt.target.value)"
 			>
 			<span class="checkbox__custom">
 				<AppIcon name="check"/>

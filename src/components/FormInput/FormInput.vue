@@ -1,11 +1,15 @@
 <template>
 	<div class="form-input">
+		<div class="form-input__label" v-if="label">
+			{{label}}
+		</div>
 		<input type="text"
 			class="form-input__field"
 			:placeholder="placeholder"
 			:value="modelValue"
 			v-on:input="updateValue($event.target.value)"
 		>
+		{{invalid}}
 	</div>
 	
 </template>
@@ -19,6 +23,13 @@
 			},
 			modelValue: {
 				type: [String, Number]
+			},
+			label: {
+				type: String
+			},
+			invalid: {
+				type: Boolean,
+				default: false
 			}
 		},
 		methods: {
@@ -47,6 +58,12 @@
 			&:focus {
 			    border-color: $dark;
 			}
+		}
+		
+		&__label {
+			margin-bottom: 4px;
+			font-size: 14px;
+			padding-left: 20px;
 		}
 	}
 </style>
