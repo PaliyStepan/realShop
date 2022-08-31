@@ -47,18 +47,20 @@
 					Измените запрос
 				</div>
 				<div class="catalog">
-					<div class="catalog__row">
-						<AppSkeleton
-							v-if="!hasProducts"
-							:lengthItems="productsPerPage"
-						/>
-						<app-catalog-item
-							v-else
-							:product="product"
-							v-for="product in products"
-							:key="product.id"
-						/>
-					</div>
+					<transition name="fade" >
+						<div class="catalog__row" v-if="!hasProducts">
+							<AppSkeleton
+								:lengthItems="productsPerPage"
+							/>
+						</div>
+						<TransitionGroup name="fade" tag="div"  v-else class="catalog__row">
+							<app-catalog-item
+								:product="product"
+								v-for="product in products"
+								:key="product.id"
+							/>
+						</TransitionGroup>
+					</transition>
 					<app-pagination
 						:perPage="productsPerPage"
 						:count="countProducts"

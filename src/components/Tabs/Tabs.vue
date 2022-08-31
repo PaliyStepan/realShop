@@ -89,6 +89,7 @@
 			align-items: center;
 			height: 50px;
 			border: 1px solid #ddd;
+			border-right: none;
 			border-bottom: none;
 			padding-left: 24px;
 			padding-right: 24px;
@@ -96,6 +97,10 @@
 			transition: background-color 0.3s ease, border-color 0.3s ease;
 			font-size: 20px;
 			font-weight: 700;
+			
+			&:last-of-type {
+				border-right: 1px solid #ddd;
+			}
 			
 			
 			&.active {

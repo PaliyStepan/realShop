@@ -15,58 +15,57 @@
 							Цена
 						</div>
 						<div class="cart-item__col cart-item__col--3">
-							Всего
+							Количество
 						</div>
 					</div>
 				</div>
+				
 				<div class="cart__items">
 					<div class="cart-item" v-for="item in items" :key="item.id">
 						<div class="cart-item__row">
 							<div class="cart-item__col cart-item__col--1">
 								<router-link
-										:to="{ name:'product', params: {id:item.id}}"
-										class="cart-item__link"
+									:to="{ name:'product', params: {id:item.id}}"
+									class="cart-item__link"
 								>
 									<img
-											:src="item.image"
-											:alt="item.name"
-											class="cart-item__image"
+										:src="item.image"
+										:alt="item.name"
+										class="cart-item__image"
 									/>
-									
 									{{item.name}}
-								
 								</router-link>
 							
 							</div>
 							<div class="cart-item__col cart-item__col--2">
-								{{item.currentPrice}}
+								{{$filters.numberFormat(item.currentPrice)}} руб.
 							</div>
 							<div class="cart-item__col cart-item__col--3">
 								<div class="cart-item__counter">
 									<div
-											class="cart-item__counter-btn cart-item__counter-btn--minus"
-											@click="SET_CNT({id: item.id, cnt: item.cnt - 1, rest: item.rest})"
-											:class="{'is-disabled' : item.cnt === 1 }"
+										class="cart-item__counter-btn cart-item__counter-btn--minus"
+										@click="SET_CNT({id: item.id, cnt: item.cnt - 1, rest: item.rest})"
+										:class="{'is-disabled' : item.cnt === 1 }"
 									>
 										-
 									</div>
 									<input type="text"
-									       class="cart-item__counter-input"
-									       :value="item.cnt"
-									       @input="inputChange(item.id, item.cnt, item.rest, $event)"
+								       class="cart-item__counter-input"
+								       :value="item.cnt"
+								       @input="inputChange(item.id, item.cnt, item.rest, $event)"
 									>
 									<div
-											class="cart-item__counter-btn cart-item__counter-btn--plus"
-											@click="SET_CNT({id: item.id, cnt: item.cnt + 1, rest: item.rest})"
-											:class="{'is-disabled' : item.cnt === item.rest }"
+										class="cart-item__counter-btn cart-item__counter-btn--plus"
+										@click="SET_CNT({id: item.id, cnt: item.cnt + 1, rest: item.rest})"
+										:class="{'is-disabled' : item.cnt === item.rest }"
 									>
 										+
 									</div>
 								</div>
 								<app-button
-										size="square"
-										kind="bordered"
-										@click="REMOVE_FROM_CART(+item.id)"
+									size="square"
+									kind="bordered"
+									@click="REMOVE_FROM_CART(+item.id)"
 								>
 									<app-icon name="trash"/>
 								</app-button>
@@ -77,11 +76,23 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="cart-item cart-item--bottom">
+					<div class="cart-item__row">
+						<div class="cart-item__col cart-item__col--1">
+						</div>
+						<div class="cart-item__col cart-item__col--2">
+							<div class="cart-item__total">
+								{{$filters.numberFormat(total)}} руб.
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="cart__bottom">
 					<app-button
-							title="Очистить корзину"
-							kind="bordered"
-							@click="CLEAR_CART"
+						title="Очистить корзину"
+						kind="bordered"
+						@click="CLEAR_CART"
 					/>
 					<app-button title="Перейти к оформлению" />
 				</div>
@@ -89,10 +100,6 @@
 			<div v-else>
 				Корзина пуста, перейдите в каталог
 			</div>
-			
-			
-			
-			
 		</div>
 	</div>
 </template>
@@ -104,7 +111,6 @@
 	import AppIcon from "../components/Icon/Icon";
 	
 	import {mapGetters, mapActions} from 'vuex';
-	import App from "../App";
 	
 	export default {
 		name: "Cart",
@@ -118,20 +124,22 @@
 			inputChange(id, cnt, rest, event) {
 
 				let lastCnt = cnt;
-	
 				if ( isNaN(parseFloat(+event.target.value))) {
 					this.SET_CNT({id: id, cnt: lastCnt, rest: rest})
+					this.$forceUpdate();
 				} else {
 					this.SET_CNT({id: id, cnt: +event.target.value, rest: rest})
 				}
-				
 				if (lastCnt === cnt) {
 					this.$forceUpdate();
 				}
+				
+			
+				
 			}
 		},
 		computed: {
-			...mapGetters('cart', {items: 'CART', cartLength:'CART_LENGTH'}),
+			...mapGetters('cart', {items: 'CART', cartLength:'CART_LENGTH', total:'TOTAL'}),
 			
 		}
 	}
@@ -243,9 +251,7 @@
 		&__counter {
 			display: flex;
 			align-items: center;
-			
 		}
-		
 		
 		&__counter-input {
 			border: none;
@@ -300,12 +306,24 @@
 					color: $dark;
 				}
 			}
-			
+		}
+		
+		
+		&__total {
+			margin-top: 40px;
+			font-size: 25px;
+			font-weight: 700;
 		}
 		
 		&--header {
 			margin-bottom: 40px;
 		}
+		
+		
+		&--bottom  &__col--2{
+			flex: 1 0 0;
+		}
+		
 		
 		
 	}

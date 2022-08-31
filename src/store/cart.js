@@ -12,7 +12,10 @@ export default {
 	getters: {
 		CART: state => state.items,
 		inCart: state => id => state.items.some(item => item.id == id),
-		CART_LENGTH: state => state.items.length
+		CART_LENGTH: state => state.items.length,
+		TOTAL:(state, getters) => {
+			return getters.CART.reduce((t,i) => t + i.currentPrice * i.cnt, 0 )
+		}
 	},
 	mutations: {
 		SET_CART_TO_STATE(state, items){

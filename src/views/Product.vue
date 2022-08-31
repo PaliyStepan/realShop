@@ -1,7 +1,5 @@
 <template>
-	
 	<div class="container">
-		
 		<AppPreloader v-if="product === null"/>
 		<div v-else-if="product === undefined">
 			Такого продукта нет, вернитесь в
@@ -11,7 +9,6 @@
 			/>
 		</div>
 		<div class="product" v-else>
-			
 			<div class="product__top">
 				<app-link
 					title="Назад"
@@ -72,7 +69,13 @@
 						</router-link>
 						<app-button
 							title="Добавить"
-							@click="ADD_TO_CART(+product.id)"
+							@click="ADD_TO_CART({
+								id: +product.id,
+								name:product.name,
+								currentPrice: hasSale ? $filters.pricePercent(product.price,product.sale) : product.price,
+								image: product.images[0],
+								rest: product.availability
+							})"
 							v-else
 						> </app-button>
 					</transition>
