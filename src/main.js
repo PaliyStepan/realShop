@@ -4,13 +4,14 @@ import router from './router';
 import store from './store';
 
 import './assets/styles.scss';
-
+import { VMaskDirective } from 'v-slim-mask'
 const app = createApp(App);
 
 
 app
 	.use(store)
 	.use(router)
+	.directive('mask', VMaskDirective)
 	.mount('#app');
 
 

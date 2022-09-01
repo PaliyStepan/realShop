@@ -4759,6 +4759,11 @@ inherits@2.0.3:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
 
+inputmask@^3.3.8:
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8"
+  integrity sha512-qyqC+MmJjOZrqojwY5T6KvWbdlPW3BO+1W7+2Y5bdSmwv//gkF8A5nXjPpZHD+rk1KRRBvsZ5oNGpJAKfVnqjw==
+
 internal-ip@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
@@ -8429,6 +8434,11 @@ uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
+v-slim-mask@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/v-slim-mask/-/v-slim-mask-1.0.24.tgz#3093042fbb95a9caea0d457bdb88d337edcfb036"
+  integrity sha512-AZ6vWxoLdCT5GGxllJUI4cy8EOaogo2OTUUaAUlCbJ5Ai3cUTj2THkroeM0lWLuZP/5RzWR0kHx9LRdhZRe9AQ==
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
@@ -8470,6 +8480,14 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
+
+vue-inputmask@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-inputmask/-/vue-inputmask-0.2.1.tgz#135158e830dc2de40e5e8122de475e03d70b02ad"
+  integrity sha512-T05NnZSjCq99cu4UOyzK0CIjvQm399G5BuoTWoS5udE3wRvflAPpUopOaRPbhu8YsKgWwKn2S+AslicFrXmy8g==
+  dependencies:
+    inputmask "^3.3.8"
+    vue "^2.4.2"
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.8.3"
@@ -8524,7 +8542,7 @@ vue-the-mask@^0.11.1:
   resolved "https://registry.yarnpkg.com/vue-the-mask/-/vue-the-mask-0.11.1.tgz#91ee01008354ae57bccc79bb61b65f32d971d9d5"
   integrity sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==
 
-vue@^2.6.10:
+vue@^2.4.2, vue@^2.6.10:
   version "2.7.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.7.10.tgz#ae516cc6c88e1c424754468844218fdd5e280f40"
   integrity sha512-HmFC70qarSHPXcKtW8U8fgIkF6JGvjEmDiVInTkKZP0gIlEPhlVlcJJLkdGIDiNkIeA2zJPQTWJUI4iWe+AVfg==

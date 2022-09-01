@@ -33,7 +33,7 @@
 				return {
 					'button--bordered': this.kind === 'bordered',
 					'button--square': this.size === 'square',
-					'button--disabled': this.disabled === true,
+					'button--disabled': this.disabled === false,
 				}
 			}
 		}
