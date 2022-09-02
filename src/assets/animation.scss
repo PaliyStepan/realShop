@@ -1,0 +1,78 @@
+.fade-enter-active{
+	animation: fadeIn 0.3s;
+}
+
+.fade-leave-active{
+	animation: fadeOut 0.3s;
+}
+
+@keyframes fadeIn {
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+@keyframes fadeOut {
+	from{ opacity: 1;}
+	to{ opacity: 0; }
+}
+
+
+.list-enter-active,
+.list-leave-active {
+	transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+	opacity: 0;
+	transform: translateY(30px);
+}
+
+
+.switch-enter-from {
+	opacity: 0;
+	transform: translateX(-20px);
+}
+
+.switch-leave-to {
+	opacity: 0;
+	transform: translateX(20px);
+}
+
+.switch-enter-active {
+	transition: all 0.5s ease;
+	position: absolute;
+}
+
+
+
+.left-enter-from {
+	opacity: 0;
+	transform: translateX(60px);
+}
+
+.left-leave-to {
+	opacity: 0;
+	transform: translateX(-60px);
+}
+
+.left-enter-active {
+	transition: all 0.5s ease;
+}
+
+
+
+.right-enter-from {
+	opacity: 0;
+	transform: translateX(-60px);
+}
+
+.right-leave-to {
+	opacity: 0;
+	transform: translateX(60px);
+}
+
+.right-enter-active {
+	transition: all 0.5s ease;
+}
+
+

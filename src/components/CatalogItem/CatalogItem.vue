@@ -5,7 +5,9 @@
 	>
 		{{product.title }}
 		<router-link class="catalog-item__link" :to="{ name:'product', params: {id:product.id}}">
-			<img :src="product.images[0]" alt="" class="catalog-item__img">
+			<div class="catalog-item__img-wrap">
+				<img :src="product.images[0]" alt="" class="catalog-item__img">
+			</div>
 			<div class="catalog-item__title">
 				{{product.name}}
 			</div>
@@ -28,7 +30,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="w-100" v-if="!hasAvailability">
+		<div class="catalog-item__buttons" v-if="!hasAvailability">
 			<transition name="fade" mode="out-in">
 				<div class="catalog-item__add" v-if="inCart(product.id)">
 					<router-link
@@ -49,7 +51,6 @@
 						<app-icon name="trash"/>
 					</app-button>
 				</div>
-				
 				<app-button
 					title="Добавить"
 					@click="ADD_TO_CART({
@@ -68,8 +69,6 @@
 				Товар закончился
 			</p>
 		</div>
-		
-
 	</div>
 </template>
 
@@ -121,12 +120,11 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		border: 1px solid #ddd;
 		border-radius: 8px;
 		padding: 32px;
 		transition: box-shadow 0.3s ease;
-		height: 100%;
+		height: 480px;
 		
 		&:hover {
 			box-shadow: 0 5px 25px rgba(30,31,33,.12);
@@ -134,9 +132,8 @@
 		
 		
 		&__link {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+			width: 100%;
+
 			color: $dark;
 			text-decoration: none;
 			
@@ -145,13 +142,30 @@
 			}
 		}
 		
+		&__img-wrap {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			margin: 0 auto 40px;
+		}
+		
 		
 		&__img {
-			height: 200px;
-			width: auto;
-			max-width: 100%;
-			object-fit: cover;
-			margin-bottom: 40px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			
+			/*height: 200px;*/
+			/*width: auto;*/
+			/*max-width: 100%;*/
+			/*object-fit: cover;*/
+		
 		}
 		
 		
@@ -159,6 +173,11 @@
 			font-size: 20px;
 			line-height: 26px;
 			margin-bottom: 20px;
+			text-align: left;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
 		}
 		
 		&__price {
@@ -209,6 +228,10 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+		}
+		
+		&__buttons {
+			margin-top: auto;
 		}
 		
 		&--empty {

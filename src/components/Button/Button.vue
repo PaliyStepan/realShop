@@ -62,6 +62,10 @@
 		&:hover {
 			@media (hover: hover) {
 				background-color: darken($green, 10%);
+				
+				.icon {
+					fill: #fff;
+				}
 			}
 		}
 		

@@ -56,30 +56,34 @@
 						Осталось
 						{{product.availability}}
 					</div>
-					<transition name="fade" mode="out-in">
-						<router-link
-							to="/cart"
-							v-if="inCart(product.id)"
-							class="catalog-item__button"
-						>
+					<div  v-if="!hasAvailability">
+						<transition name="fade" mode="out-in">
+							<router-link
+									to="/cart"
+									v-if="inCart(product.id)"
+									class="catalog-item__button"
+							>
+								<app-button
+										title="Перейти в корзину"
+										kind="bordered"
+								/>
+							</router-link>
 							<app-button
-								title="Перейти в корзину"
-								kind="bordered"
-							/>
-						</router-link>
-						<app-button
-							title="Добавить"
-							@click="ADD_TO_CART({
+								title="Добавить"
+								@click="ADD_TO_CART({
 								id: +product.id,
 								name:product.name,
 								currentPrice: hasSale ? $filters.pricePercent(product.price,product.sale) : product.price,
 								image: product.images[0],
 								rest: product.availability
 							})"
-							v-else
-						> </app-button>
-					</transition>
-					
+									v-else
+							> </app-button>
+						</transition>
+					</div>
+					<div v-else>
+						Продукт закончился
+					</div>
 					<div class="product__desc">
 						<p v-for="desc in product.desc">
 							{{desc}}
@@ -129,7 +133,10 @@
 			},
 			hasSale(){
 				return this.product.sale > 0
-			}
+			},
+			hasAvailability(){
+				return this.product.availability === 0;
+			},
 		},
 		methods:{
 			...mapActions('products', ['GET_ONE_PRODUCT_FROM_API']),

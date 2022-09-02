@@ -1,22 +1,37 @@
 <template>
 	<section class="section">
 		<div class="container">
-			<form action="" @submit.prevent>
+			
+			<div class="progressbar">
+				<div class="progressbar__inner">
 				
-				<div class="order-steps">
+				</div>
+			</div>
+			
+			<form action="" @submit.prevent>
+				<transition-group
+					name="switch"
+					tag="div"
+					class="order-steps"
+					appear
+				>
 					<div class="order-step" v-if="activeStep === 1">
 						<div class="order-step__header">
-							<h4>
-								1. &nbsp;
-								Контактные данные
-							</h4>
+							<transition
+								name="left"
+								appear
+							>
+								<h4>
+									1. Контактные данные
+								</h4>
+							</transition>
 						</div>
 						<div class="order-step__items">
 							<div class="order-step__row">
 								<div class="order-step__col">
 									<div class="form-input">
 										<div class="form-input__label" >
-											Имя
+											Имя *
 										</div>
 										<input type="text"
 											class="form-input__field"
@@ -34,7 +49,7 @@
 								<div class="order-step__col">
 									<div class="form-input">
 										<div class="form-input__label" >
-											Фамилия
+											Фамилия *
 										</div>
 										<input type="text"
 									       class="form-input__field"
@@ -52,7 +67,7 @@
 								<div class="order-step__col">
 									<div class="form-input">
 										<div class="form-input__label" >
-											Телефон
+											Телефон *
 										</div>
 										<input type="text"
 									       class="form-input__field"
@@ -71,7 +86,7 @@
 								<div class="order-step__col">
 									<div class="form-input">
 										<div class="form-input__label" >
-											Email
+											Email *
 										</div>
 										<input type="email"
 									       class="form-input__field"
@@ -88,17 +103,28 @@
 								</div>
 							</div>
 						</div>
-						<app-button
-							title="Далее"
-							:disabled="!isUserValid"
-							@click="nextStep"
-						/>
+						
+						<transition
+							name="right"
+							appear
+						>
+							<app-button
+								title="Далее"
+								:disabled="!isUserValid"
+								@click="nextStep"
+							/>
+						</transition>
 					</div>
 					<div class="order-step" v-if="activeStep === 2">
 						<div class="order-step__header">
-							<h4>
-								2. Способ получения
-							</h4>
+							<transition
+								name="left"
+								appear
+							>
+								<h4>
+									2. Способ получения
+								</h4>
+							</transition>
 						</div>
 						<div class="order-step__tabs">
 							<app-check-label value="shop" v-model="receiving">
@@ -109,163 +135,180 @@
 							</app-check-label>
 						</div>
 						<div class="order-step__tabs-inner">
-							<div class="order-step__tab" v-if="isReceiving">
-								<div class="order-step__items">
-									<div class="order-step__row">
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Имя
+							<transition name="fade" mode="out-in">
+								<div class="order-step__tab" v-if="isReceiving">
+									<div class="order-step__items">
+										<div class="order-step__row">
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Имя
+													</div>
+													<input type="text"
+													       class="form-input__field"
+													       v-model.trim="user.name"
+													       @blur="v$.user.name.$touch()"
+													       :class="{'is-error' : v$.user.name.$error}"
+													>
+													<div class="form-input__error" v-if="errorName.length">
+														<p v-for="(error,index) in errorName" :key="index">
+															{{error}}
+														</p>
+													</div>
 												</div>
-												<input type="text"
+											</div>
+										</div>
+									</div>
+									<transition
+										name="right"
+										appear
+									>
+										<div class="order-step__buttons">
+											<app-button
+												title="Назад"
+												@click="prevStep"
+											/>
+											<app-button
+												title="Далее"
+												@click="nextStep"
+												:disabled="!isAddressValid"
+											/>
+										</div>
+									</transition>
+								</div>
+								<div class="order-step__tab" v-else>
+									<div class="order-step__items">
+										<div class="order-step__row">
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label">
+														Город *
+													</div>
+													<input type="text"
 												       class="form-input__field"
-												       v-model.trim="user.name"
-												       @blur="v$.user.name.$touch()"
-												       :class="{'is-error' : v$.user.name.$error}"
-												>
-												<div class="form-input__error" v-if="errorName.length">
-													<p v-for="(error,index) in errorName" :key="index">
-														{{error}}
-													</p>
+												       v-model.trim="address.city"
+												       @blur="v$.address.city.$touch()"
+												       :class="{'is-error' : v$.address.city.$error}"
+													>
+													<div class="form-input__error" v-if="errorAddress.length">
+														<p v-for="(error,index) in errorAddress" :key="index">
+															{{error}}
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Улица *
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.street"
+												       @blur="v$.address.street.$touch()"
+												       :class="{'is-error' : v$.address.street.$error}"
+													>
+													<div class="form-input__error" v-if="errorStreet.length">
+														<p v-for="(error,index) in errorStreet" :key="index">
+															{{error}}
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Строение *
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.building"
+												       @blur="v$.address.building.$touch()"
+												       :class="{'is-error' : v$.address.building.$error}"
+													>
+													<div class="form-input__error" v-if="errorBuilding.length">
+														<p v-for="(error,index) in errorBuilding" :key="index">
+															{{error}}
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Корпус
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.frame"
+													>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Подъезд
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.entrance"
+													>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Этаж
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.floor"
+													>
+												</div>
+											</div>
+											<div class="order-step__col">
+												<div class="form-input">
+													<div class="form-input__label" >
+														Квартира
+													</div>
+													<input type="text"
+												       class="form-input__field"
+												       v-model.trim="address.flat"
+													>
 												</div>
 											</div>
 										</div>
 									</div>
+									<transition
+										name="right"
+										appear
+									>
+										<div class="order-step__buttons">
+											<app-button
+												title="Назад"
+												@click="prevStep"
+											/>
+											<app-button
+												title="Далее"
+												@click="nextStep"
+												:disabled="!isAddressValid"
+											/>
+										</div>
+									</transition>
 								</div>
-								<div class="order-step__buttons">
-									<app-button
-											title="Назад"
-											@click="prevStep"
-									/>
-									<app-button
-											title="Далее"
-											@click="nextStep"
-											:disabled="!isAddressValid"
-									/>
-								</div>
-							</div>
-							<div class="order-step__tab" v-else>
-								<div class="order-step__items">
-									<div class="order-step__row">
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label">
-													Город *
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.city"
-											       @blur="v$.address.city.$touch()"
-											       :class="{'is-error' : v$.address.city.$error}"
-												>
-												<div class="form-input__error" v-if="errorAddress.length">
-													<p v-for="(error,index) in errorAddress" :key="index">
-														{{error}}
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Улица *
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.street"
-											       @blur="v$.address.street.$touch()"
-											       :class="{'is-error' : v$.address.street.$error}"
-												>
-												<div class="form-input__error" v-if="errorStreet.length">
-													<p v-for="(error,index) in errorStreet" :key="index">
-														{{error}}
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Строение *
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.building"
-											       @blur="v$.address.building.$touch()"
-											       :class="{'is-error' : v$.address.building.$error}"
-												>
-												<div class="form-input__error" v-if="errorBuilding.length">
-													<p v-for="(error,index) in errorBuilding" :key="index">
-														{{error}}
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Корпус
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.frame"
-												>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Подъезд
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.entrance"
-												>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Этаж
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.floor"
-												>
-											</div>
-										</div>
-										<div class="order-step__col">
-											<div class="form-input">
-												<div class="form-input__label" >
-													Квартира
-												</div>
-												<input type="text"
-											       class="form-input__field"
-											       v-model.trim="address.flat"
-												>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="order-step__buttons">
-									<app-button
-										title="Назад"
-										@click="prevStep"
-									/>
-									<app-button
-										title="Далее"
-										@click="nextStep"
-										:disabled="!isAddressValid"
-									/>
-								</div>
-							</div>
+							</transition>
 						</div>
 					</div>
 					<div class="order-step" v-if="activeStep === 3">
 						<div class="order-step__header">
-							<h4>
-								3. Cпособ олплаты
-							</h4>
+							<transition
+								name="left"
+								appear
+							>
+								<h4>
+									3. Способ оплаты
+								</h4>
+							</transition>
 						</div>
 						<div class="order-step__tabs-inner">
 							<div class="order-step__tabs">
@@ -279,16 +322,20 @@
 									{{pay.name}}
 								</app-check-label>
 							</div>
-							
-							<div class="order-step__buttons">
-								<app-button
-									title="Назад"
-									@click="prevStep"
-								/>
-							</div>
+							<transition
+								name="right"
+								appear
+							>
+								<div class="order-step__buttons">
+									<app-button
+										title="Назад"
+										@click="prevStep"
+									/>
+								</div>
+							</transition>
 						</div>
 					</div>
-				</div>
+				</transition-group >
 			</form>
 		</div>
 	</section>
@@ -309,7 +356,7 @@
 			AppCheckLabel,
 		},
 		data: () => ({
-			activeStep: 3,
+			activeStep: 1,
 			receiving: 'delivery',
 			v$: useValidate(),
 			user: {
@@ -354,7 +401,7 @@
 			},
 			prevStep(){
 				this.activeStep = this.activeStep - 1
-			}
+			},
 		},
 		computed: {
 			isReceiving(){
@@ -428,7 +475,16 @@
 </script>
 
 <style lang="scss">
+	@import "../assets/variables";
+	
+	.order-steps {
+		position: relative;
+	}
+	
 	.order-step {
+		width: 100%;
+		top: 0;
+		right: 0;
 		
 		&__header {
 			margin-bottom: 40px;
@@ -480,4 +536,24 @@
 			}
 		}
 	}
+	
+
+	.progressbar {
+		height: 20px;
+		background-color: #ddd;
+		border-radius: 2px;
+		overflow: hidden;
+		margin-bottom: 60px;
+		
+		&__inner {
+			width: 100%;
+			height: 100%;
+			background-color: $green;
+		}
+	}
+	
+	
+
+
+
 </style>

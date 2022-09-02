@@ -42,32 +42,36 @@
 				</div>
 			</div>
 			<div class="main-grid__right">
-				<div v-if="countProducts === 0">
-					Ничего не найдено. <br>
-					Измените запрос
-				</div>
-				<div class="catalog">
-					<transition name="fade" >
-						<div class="catalog__row" v-if="!hasProducts">
-							<AppSkeleton
-								:lengthItems="productsPerPage"
-							/>
-						</div>
-						<TransitionGroup name="fade" tag="div"  v-else class="catalog__row">
-							<app-catalog-item
-								:product="product"
-								v-for="product in products"
-								:key="product.id"
-							/>
-						</TransitionGroup>
-					</transition>
-					<app-pagination
-						:perPage="productsPerPage"
-						:count="countProducts"
-						:page="page"
-						@paginate="changePagination"
-					/>
-				</div>
+				<transition name="fade" mode="out-in" appear>
+					<div class="catalog" v-if="countProducts !== 0">
+						<transition name="fade" mode="out-in" appear>
+							<div class="catalog__row" v-if="!hasProducts">
+								<AppSkeleton
+									:lengthItems="productsPerPage"
+								/>
+							</div>
+<!--							<TransitionGroup mode="out-in" name="fade" tag="div"  v-else class="catalog__row">-->
+							<div class="catalog__row" v-else>
+								<app-catalog-item
+									:product="product"
+									v-for="product in products"
+									:key="product.id"
+								/>
+							</div>
+<!--							</TransitionGroup>-->
+						</transition>
+						<app-pagination
+							:perPage="productsPerPage"
+							:count="countProducts"
+							:page="page"
+							@paginate="changePagination"
+						/>
+					</div>
+					<div v-else class="catalog__empty">
+						Ничего не найдено. <br>
+						Измените запрос
+					</div>
+				</transition>
 			</div>
 		</div>
 	</div>
@@ -229,10 +233,17 @@
 		
 		&__right {
 			flex: 1 0 0;
+			position: relative;
 		}
 	}
 	
 	.catalog {
+		
+		&__empty {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
 		
 		&__row {
 			display: grid;

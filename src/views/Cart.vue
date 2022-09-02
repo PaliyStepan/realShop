@@ -1,109 +1,108 @@
 <template>
 	<div class="cart">
 		<div class="cart__container">
-			
-			<div v-if="cartLength">
-				<h4 class="cart__title">
-					Корзина
-				</h4>
-				<div class="cart-item cart-item--header">
-					<div class="cart-item__row">
-						<div class="cart-item__col cart-item__col--1">
-							Товар
-						</div>
-						<div class="cart-item__col cart-item__col--2">
-							Цена
-						</div>
-						<div class="cart-item__col cart-item__col--3">
-							Количество
-						</div>
-					</div>
-				</div>
-				
-				<div class="cart__items">
-					<div class="cart-item" v-for="item in items" :key="item.id">
+			<transition name="fade" mode="out-in" appear>
+				<div v-if="cartLength">
+					<h4 class="cart__title">
+						Корзина
+					</h4>
+					<div class="cart-item cart-item--header">
 						<div class="cart-item__row">
 							<div class="cart-item__col cart-item__col--1">
-								<router-link
-									:to="{ name:'product', params: {id:item.id}}"
-									class="cart-item__link"
-								>
-									<img
-										:src="item.image"
-										:alt="item.name"
-										class="cart-item__image"
-									/>
-									{{item.name}}
-								</router-link>
-							
+								Товар
 							</div>
 							<div class="cart-item__col cart-item__col--2">
-								{{$filters.numberFormat(item.currentPrice)}} руб.
+								Цена
 							</div>
 							<div class="cart-item__col cart-item__col--3">
-								<div class="cart-item__counter">
-									<div
-										class="cart-item__counter-btn cart-item__counter-btn--minus"
-										@click="SET_CNT({id: item.id, cnt: item.cnt - 1, rest: item.rest})"
-										:class="{'is-disabled' : item.cnt === 1 }"
+								Количество
+							</div>
+						</div>
+					</div>
+					<div class="cart__items">
+						<div class="cart-item" v-for="item in items" :key="item.id">
+							<div class="cart-item__row">
+								<div class="cart-item__col cart-item__col--1">
+									<router-link
+										:to="{ name:'product', params: {id:item.id}}"
+										class="cart-item__link"
 									>
-										-
-									</div>
-									<input type="text"
-								       class="cart-item__counter-input"
-								       :value="item.cnt"
-								       @input="inputChange(item.id, item.cnt, item.rest, $event)"
-									>
-									<div
-										class="cart-item__counter-btn cart-item__counter-btn--plus"
-										@click="SET_CNT({id: item.id, cnt: item.cnt + 1, rest: item.rest})"
-										:class="{'is-disabled' : item.cnt === item.rest }"
-									>
-										+
-									</div>
+										<img
+											:src="item.image"
+											:alt="item.name"
+											class="cart-item__image"
+										/>
+										{{item.name}}
+									</router-link>
+								
 								</div>
-								<app-button
-									size="square"
-									kind="bordered"
-									@click="REMOVE_FROM_CART(+item.id)"
-								>
-									<app-icon name="trash"/>
-								</app-button>
-								<div class="cart-item__rest">
-									На складе {{ item.rest}}
+								<div class="cart-item__col cart-item__col--2">
+									{{$filters.numberFormat(item.currentPrice)}} руб.
+								</div>
+								<div class="cart-item__col cart-item__col--3">
+									<div class="cart-item__counter">
+										<div
+											class="cart-item__counter-btn cart-item__counter-btn--minus"
+											@click="SET_CNT({id: item.id, cnt: item.cnt - 1, rest: item.rest})"
+											:class="{'is-disabled' : item.cnt === 1 }"
+										>
+											-
+										</div>
+										<input type="text"
+									       class="cart-item__counter-input"
+									       :value="item.cnt"
+									       @input="inputChange(item.id, item.cnt, item.rest, $event)"
+										>
+										<div
+											class="cart-item__counter-btn cart-item__counter-btn--plus"
+											@click="SET_CNT({id: item.id, cnt: item.cnt + 1, rest: item.rest})"
+											:class="{'is-disabled' : item.cnt === item.rest }"
+										>
+											+
+										</div>
+									</div>
+									<app-button
+										size="square"
+										kind="bordered"
+										@click="REMOVE_FROM_CART(+item.id)"
+									>
+										<app-icon name="trash"/>
+									</app-button>
+									<div class="cart-item__rest">
+										На складе {{ item.rest}}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				
-				<div class="cart-item cart-item--bottom">
-					<div class="cart-item__row">
-						<div class="cart-item__col cart-item__col--1">
-						</div>
-						<div class="cart-item__col cart-item__col--2">
-							<div class="cart-item__total">
-								{{$filters.numberFormat(total)}} руб.
+					<div class="cart-item cart-item--bottom">
+						<div class="cart-item__row">
+							<div class="cart-item__col cart-item__col--1">
+							</div>
+							<div class="cart-item__col cart-item__col--2">
+								<div class="cart-item__total">
+									{{$filters.numberFormat(total)}} руб.
+								</div>
 							</div>
 						</div>
 					</div>
+					<div class="cart__bottom">
+						<app-button
+							title="Очистить корзину"
+							kind="bordered"
+							@click="CLEAR_CART"
+						/>
+						<router-link to="/order" class="link-wrap">
+							<app-button title="Перейти к оформлению" />
+						</router-link>
+						
+						
+					</div>
 				</div>
-				<div class="cart__bottom">
-					<app-button
-						title="Очистить корзину"
-						kind="bordered"
-						@click="CLEAR_CART"
-					/>
-					<router-link to="/order" class="link-wrap">
-						<app-button title="Перейти к оформлению" />
-					</router-link>
-					
-					
+				<div v-else>
+					Корзина пуста, перейдите в каталог
 				</div>
-			</div>
-			<div v-else>
-				Корзина пуста, перейдите в каталог
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
