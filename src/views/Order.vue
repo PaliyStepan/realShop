@@ -3,10 +3,6 @@
 		<div class="container">
 			<transition name="fade" mode="out-in">
 				<div v-if="!orderDone">
-					<div class="progressbar">
-						<div class="progressbar__inner">
-						</div>
-					</div>
 					<form action=""
 						@submit.prevent
 					>
